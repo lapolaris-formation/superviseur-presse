@@ -32,7 +32,8 @@ jobs:
         shell: pwsh
         run: |
           $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
-          $vstest = & $vswhere -latest -products * -find "**\vstest.console.exe" | Select-Object -First 1
+          # Chemin exact plutôt que "**\vstest.console.exe" : la recherche récursive coûtait une minute
+          $vstest = & $vswhere -latest -products * -find "Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" | Select-Object -First 1
           Write-Host "VSTest : $vstest"
           & $vstest tests\SuperviseurPresse.Tests\bin\Release\SuperviseurPresse.Tests.dll `
             "/logger:trx;LogFileName=resultats.trx" /ResultsDirectory:TestResults
