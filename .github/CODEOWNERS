@@ -1,0 +1,16 @@
+# Relecteurs par défaut sur l'ensemble du dépôt
+*                       @lapolaris-formation/developpeurs
+
+# Code source applicatif et tests
+/src/                   @lapolaris-formation/developpeurs
+/tests/                 @lapolaris-formation/developpeurs
+
+# DLL du fournisseur de l'automate : une nouvelle version change ce qui est livré au client
+/lib/                   @lapolaris-formation/responsables
+
+# Fichiers sensibles : workflows et configuration de sécurité
+# (couvre aussi .github/CODEOWNERS lui-même)
+/.github/               @lapolaris-formation/responsables
+
+# Politique de sécurité : engagements de l'entreprise
+/SECURITY.md            @lapolaris-formation/responsables
