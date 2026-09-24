@@ -1,0 +1,21 @@
+name: Revue des dépendances
+
+on:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  revue-dependances:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v7
+
+      - name: Comparer les dépendances avec la branche cible
+        uses: actions/dependency-review-action@v5
+        with:
+          fail-on-severity: high
