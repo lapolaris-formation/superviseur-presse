@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    # .NET Framework 4.8 et Windows Forms : seul un runner Windows sait compiler ce projet
+    runs-on: windows-latest
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v7
+
+      - name: Installer MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      # dotnet restore ne lit pas packages.config : c'est MSBuild qui restaure
+      - name: Restaurer les paquets (packages.config)
+        run: msbuild SuperviseurPresse.sln -t:restore -p:RestorePackagesConfig=true
+
+      - name: Compiler
+        run: msbuild SuperviseurPresse.sln -p:Configuration=Release -m
+
+      - name: Exécuter les tests
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $vstest = & $vswhere -latest -products * -find "**\vstest.console.exe" | Select-Object -First 1
+          Write-Host "VSTest : $vstest"
+          & $vstest tests\SuperviseurPresse.Tests\bin\Release\SuperviseurPresse.Tests.dll `
+            "/logger:trx;LogFileName=resultats.trx" /ResultsDirectory:TestResults
+          exit $LASTEXITCODE
+
+      - name: Publier les résultats de tests
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: resultats-tests
+          path: TestResults
+          retention-days: 30
+
+      - name: Téléverser les binaires
+        uses: actions/upload-artifact@v7
+        with:
+          name: superviseur-presse-${{ github.sha }}
+          path: src/SuperviseurPresse/bin/Release
+          retention-days: 90
