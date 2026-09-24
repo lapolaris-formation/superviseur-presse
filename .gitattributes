@@ -1,0 +1,11 @@
+* text=auto
+
+*.vb text diff=vb
+*.vbproj text
+*.config text
+*.sln text eol=crlf
+
+*.dll binary
+*.exe binary
+*.png binary
+*.ico binary

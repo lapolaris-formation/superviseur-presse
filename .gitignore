@@ -1,0 +1,30 @@
+# Sorties de compilation
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Paquets NuGet restaurés (packages.config) : ils se restaurent, ils ne se versionnent pas
+packages/*
+*.nupkg
+
+# Tests et couverture
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+coveragereport/
+
+# Certificats et clés : jamais dans le dépôt
+*.pfx
+*.snk
+
+# Divers
+*.log
+Thumbs.db
