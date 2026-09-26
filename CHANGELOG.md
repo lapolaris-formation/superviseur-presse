@@ -12,3 +12,4 @@
 ## 2.2.0
 
 - Accès maintenance protégé par mot de passe.
+Correctif 1.0.1
